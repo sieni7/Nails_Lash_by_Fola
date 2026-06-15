@@ -49,10 +49,15 @@ const Header = () => {
         <div className="custom-modal active">
           <div className="custom-modal-content">
             <div className="custom-modal-header">
-              <div className="custom-modal-icon">ℹ️</div>
+              <div className="custom-modal-icon" style={{ marginBottom: '15px' }}>
+                <img src="/images/logo.png" alt="Logo" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover' }} onError={(e) => e.target.style.display='none'} />
+              </div>
               <div className="custom-modal-title">{config?.salon.nom}</div>
-              <div className="custom-modal-message" style={{ whiteSpace: 'pre-line' }}>
-                {`📍 ${config?.salon.adresse}\n📞 ${config?.salon.whatsapp}\n⏰ Mardi-Dimanche 9h-21h\n\n✨ Révélez votre beauté, affirmez votre style`}
+              <div className="custom-modal-message" style={{ whiteSpace: 'pre-line', marginTop: '15px' }}>
+                <a href={`https://maps.google.com/?q=${encodeURIComponent(config?.salon.adresse + " " + (config?.salon.maps_code || ''))}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--whatsapp-teal)', textDecoration: 'none', fontWeight: 'bold' }}>
+                  📍 {config?.salon.adresse}
+                </a>
+                {`\n📞 ${config?.salon.whatsapp}\n⏰ Mardi-Dimanche 9h-21h\n\n✨ Révélez votre beauté, affirmez votre style`}
               </div>
             </div>
             <div className="custom-modal-actions">
