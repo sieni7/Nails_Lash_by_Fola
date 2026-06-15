@@ -1,47 +1,315 @@
-[
-  {
-    "id": "nail_01",
-    "nom": "Pose d'ongles américains",
-    "categorie": "Nails",
-    "duree_minutes": 45,
-    "prix_fcfa": 5000,
-    "description": "Résine semi-permanente, finition naturelle",
-    "disponible": true
+{
+  "prestations": [
+    {
+      "id": "nail_01",
+      "nom": "Vernis permanent - capsule couleur simple",
+      "categorie": "Nail Art",
+      "prix": 4000,
+      "prix_texte": "4 000 FCFA",
+      "duree": 30,
+      "description": "Finition capsule, couleur simple",
+      "icon": "💅",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "nail_02",
+      "nom": "Vernis permanent - French",
+      "categorie": "Nail Art",
+      "prix": 5000,
+      "prix_texte": "5 000 FCFA",
+      "duree": 35,
+      "description": "French avec taille de votre choix",
+      "icon": "💅",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "nail_03",
+      "nom": "Vernis Nail Art",
+      "categorie": "Nail Art",
+      "prix": "varie",
+      "prix_texte": "Sur devis",
+      "duree": 45,
+      "description": "Motifs personnalisés - prix selon complexité",
+      "icon": "🎨",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "nail_04",
+      "nom": "Remplissage (Gel et gainage)",
+      "categorie": "Nail Art",
+      "prix": 5000,
+      "prix_texte": "5 000 FCFA",
+      "duree": 40,
+      "description": "Remplissage gel ou gainage",
+      "icon": "🔄",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "nail_05",
+      "nom": "Vernis permanent sans capsule (main)",
+      "categorie": "Nail Art",
+      "prix": 3000,
+      "prix_texte": "3 000 FCFA",
+      "duree": 25,
+      "description": "Naturel sans capsule",
+      "icon": "💅",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "nail_06",
+      "nom": "Dépose vernis permanent",
+      "categorie": "Nail Art",
+      "prix": 2000,
+      "prix_texte": "2 000 FCFA",
+      "duree": 15,
+      "description": "Retrait vernis permanent",
+      "icon": "🔧",
+      "disponible": true,
+      "popularite": 3
+    },
+    {
+      "id": "nail_07",
+      "nom": "Dépose de Gel main",
+      "categorie": "Nail Art",
+      "prix": 4000,
+      "prix_texte": "4 000 FCFA",
+      "duree": 20,
+      "description": "Retrait gel main",
+      "icon": "🔧",
+      "disponible": true,
+      "popularite": 3
+    },
+    {
+      "id": "pieds_01",
+      "nom": "Vernis permanent (sans capsule) - Pieds",
+      "categorie": "Pieds",
+      "prix": 1500,
+      "prix_texte": "1 500 FCFA",
+      "duree": 20,
+      "description": "Pose vernis pieds sans capsule",
+      "icon": "🦶",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "pieds_02",
+      "nom": "Vernis permanent avec capsule - Pieds",
+      "categorie": "Pieds",
+      "prix": 2500,
+      "prix_texte": "2 500 FCFA",
+      "duree": 25,
+      "description": "Pose vernis pieds avec capsule",
+      "icon": "🦶",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "pieds_03",
+      "nom": "Gainage pied",
+      "categorie": "Pieds",
+      "prix": 5000,
+      "prix_texte": "5 000 FCFA",
+      "duree": 35,
+      "description": "Soin gainant pieds",
+      "icon": "💪",
+      "disponible": true,
+      "popularite": 3
+    },
+    {
+      "id": "pieds_04",
+      "nom": "Changer le vernis - Pieds",
+      "categorie": "Pieds",
+      "prix": 2000,
+      "prix_texte": "2 000 FCFA",
+      "duree": 15,
+      "description": "Changement de vernis pieds",
+      "icon": "🔄",
+      "disponible": true,
+      "popularite": 3
+    },
+    {
+      "id": "gel_01",
+      "nom": "Construction Gel - Court",
+      "categorie": "Construction Gel",
+      "prix": 8000,
+      "prix_texte": "8 000 FCFA",
+      "duree": 60,
+      "description": "Ongles courts",
+      "icon": "✨",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "gel_02",
+      "nom": "Construction Gel - Moyen",
+      "categorie": "Construction Gel",
+      "prix": 12000,
+      "prix_texte": "12 000 FCFA",
+      "duree": 75,
+      "description": "Ongles moyens",
+      "icon": "✨",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "gel_03",
+      "nom": "Construction Gel - Long",
+      "categorie": "Construction Gel",
+      "prix": 15000,
+      "prix_texte": "15 000 FCFA",
+      "duree": 90,
+      "description": "Ongles longs",
+      "icon": "✨",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "gainage_01",
+      "nom": "Construction Gainage - Court",
+      "categorie": "Construction Gainage",
+      "prix": 5000,
+      "prix_texte": "5 000 FCFA",
+      "duree": 50,
+      "description": "Gainage ongles courts",
+      "icon": "💪",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "gainage_02",
+      "nom": "Construction Gainage - Moyen",
+      "categorie": "Construction Gainage",
+      "prix": 8000,
+      "prix_texte": "8 000 FCFA",
+      "duree": 65,
+      "description": "Gainage ongles moyens",
+      "icon": "💪",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "gainage_03",
+      "nom": "Construction Gainage - Long",
+      "categorie": "Construction Gainage",
+      "prix": 12000,
+      "prix_texte": "12 000 FCFA",
+      "duree": 80,
+      "description": "Gainage ongles longs",
+      "icon": "💪",
+      "disponible": true,
+      "popularite": 3
+    },
+    {
+      "id": "semi_01",
+      "nom": "Semi-Extension Classic",
+      "categorie": "Semi-Extension de Cils",
+      "prix": 3000,
+      "prix_texte": "3 000 FCFA",
+      "duree": 45,
+      "description": "Effet naturel, pose rapide",
+      "icon": "👁️",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "semi_02",
+      "nom": "Semi-Extension Hybride",
+      "categorie": "Semi-Extension de Cils",
+      "prix": 5000,
+      "prix_texte": "5 000 FCFA",
+      "duree": 60,
+      "description": "Mix classic + volume",
+      "icon": "👁️",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "semi_03",
+      "nom": "Semi-Extension Volume",
+      "categorie": "Semi-Extension de Cils",
+      "prix": 8000,
+      "prix_texte": "8 000 FCFA",
+      "duree": 75,
+      "description": "Effet dense",
+      "icon": "👁️",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "semi_04",
+      "nom": "Semi-Extension Mega Volume",
+      "categorie": "Semi-Extension de Cils",
+      "prix": 12000,
+      "prix_texte": "12 000 FCFA",
+      "duree": 90,
+      "description": "Effet glamour maximal",
+      "icon": "👁️",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "ext_01",
+      "nom": "Extension Classic",
+      "categorie": "Extension de Cils",
+      "prix": 10000,
+      "prix_texte": "10 000 FCFA",
+      "duree": 60,
+      "description": "Un à un naturel",
+      "icon": "👑",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "ext_02",
+      "nom": "Extension Hybride",
+      "categorie": "Extension de Cils",
+      "prix": 15000,
+      "prix_texte": "15 000 FCFA",
+      "duree": 75,
+      "description": "Mix classic + volume",
+      "icon": "👑",
+      "disponible": true,
+      "popularite": 5
+    },
+    {
+      "id": "ext_03",
+      "nom": "Extension Volume",
+      "categorie": "Extension de Cils",
+      "prix": 25000,
+      "prix_texte": "25 000 FCFA",
+      "duree": 90,
+      "description": "Volume léger",
+      "icon": "👑",
+      "disponible": true,
+      "popularite": 4
+    },
+    {
+      "id": "ext_04",
+      "nom": "Extension Mega Volume",
+      "categorie": "Extension de Cils",
+      "prix": 20000,
+      "prix_texte": "20 000 FCFA",
+      "duree": 105,
+      "description": "Volume maximal",
+      "icon": "👑",
+      "disponible": true,
+      "popularite": 5
+    }
+  ],
+  "infos_salon": {
+    "slogan": "Révélez votre beauté, affirmez votre style",
+    "tiktok": "@folakemi8786",
+    "facebook": "Nails & Lash by Fola",
+    "localisation": "947G+5FX, Bingerville",
+    "telephone": "+225 01 61 21 06 47"
   },
-  {
-    "id": "nail_02",
-    "nom": "Nail art personnalisé",
-    "categorie": "Nails",
-    "duree_minutes": 60,
-    "prix_fcfa": 7500,
-    "description": "Motifs, strass, paillettes",
-    "disponible": true
-  },
-  {
-    "id": "lash_01",
-    "nom": "Extension cils classiques",
-    "categorie": "Lash",
-    "duree_minutes": 60,
-    "prix_fcfa": 8000,
-    "description": "Un à un, effet naturel",
-    "disponible": true
-  },
-  {
-    "id": "lash_02",
-    "nom": "Extension cils volume",
-    "categorie": "Lash",
-    "duree_minutes": 90,
-    "prix_fcfa": 12000,
-    "description": "Effet glamour dense",
-    "disponible": true
-  },
-  {
-    "id": "combo_01",
-    "nom": "Duo Nails + Lash",
-    "categorie": "Combo",
-    "duree_minutes": 120,
-    "prix_fcfa": 15000,
-    "description": "Pose ongles simples + extension cils classiques",
-    "disponible": true
+  "stats": {
+    "total_prestations": 26,
+    "categories": ["Nail Art", "Pieds", "Construction Gel", "Construction Gainage", "Semi-Extension de Cils", "Extension de Cils"]
   }
-]
+}

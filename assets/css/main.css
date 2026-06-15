@@ -1,0 +1,79 @@
+/* Styles globaux */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-base);
+  background: var(--whatsapp-bg);
+  color: var(--gray-900);
+  line-height: 1.5;
+}
+
+.app-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--white);
+  min-height: 100vh;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Header WhatsApp */
+.wa-header {
+  background: var(--whatsapp-teal);
+  color: white;
+  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.wa-header__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: white;
+  overflow: hidden;
+}
+
+.wa-header__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wa-header__info h1 {
+  font-size: var(--text-lg);
+  margin-bottom: 4px;
+}
+
+.wa-header__info .status {
+  font-size: var(--text-sm);
+  opacity: 0.9;
+}
+
+/* Toast animation */
+@keyframes fadeOut {
+  0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--whatsapp-green);
+  border-radius: 3px;
+}
