@@ -4,6 +4,7 @@ import CategoryFilter from './components/CategoryFilter';
 import PrestationGrid from './components/PrestationGrid';
 import CartFab from './components/CartFab';
 import CartModal from './components/CartModal';
+import Admin from './components/Admin';
 import { CartProvider } from './contexts/CartContext';
 import './styles/variables.css';
 import './styles/components.css';
@@ -26,6 +27,15 @@ function App() {
   const filteredPrestations = currentCategory === 'Toutes' 
     ? prestations 
     : prestations.filter(p => p.categorie === currentCategory);
+    
+  // Simple routing
+  if (window.location.pathname === '/admin') {
+    return (
+      <CartProvider>
+        <Admin />
+      </CartProvider>
+    );
+  }
   
   return (
     <CartProvider>

@@ -51,6 +51,16 @@ export const CartProvider = ({ children }) => {
       date: new Date().toISOString().split('T')[0],
       count: newCount
     }));
+    
+    // Save order history here to make sure Admin can see it
+    const savedCommandes = localStorage.getItem('nails_lash_commandes');
+    let commandes = savedCommandes ? JSON.parse(savedCommandes) : [];
+    commandes.push({
+      date: new Date().toISOString(),
+      prestations: panier,
+      total: panier.reduce((sum, item) => sum + item.prix, 0)
+    });
+    localStorage.setItem('nails_lash_commandes', JSON.stringify(commandes));
   };
   
   return (
@@ -60,7 +70,8 @@ export const CartProvider = ({ children }) => {
       retirerDuPanier,
       viderPanier: () => setPanier([]),
       compteurJour,
-      incrementerCompteur
+      incrementerCompteur,
+      setCompteurJour
     }}>
       {children}
     </CartContext.Provider>
