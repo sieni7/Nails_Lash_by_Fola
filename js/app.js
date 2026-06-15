@@ -17,13 +17,6 @@ async function initApp() {
       '<div style="text-align:center;padding:40px;">Erreur chargement des prestations</div>';
   }
   
-  // Initialiser les composants
-  if (typeof renderGallery === 'function') {
-    renderGallery();
-  } else {
-    console.warn('⚠️ gallery.js non chargé');
-  }
-  
   updateOpenStatus();
   setupProfileClick();
   

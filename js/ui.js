@@ -97,19 +97,18 @@ function renderCategories(prestations) {
   if (!container) return;
   
   container.innerHTML = categories.map(cat => `
-    <div class="category-chip ${currentFilter === cat ? 'active' : ''}" 
-         data-categorie="${cat}">
+    <button class="category-chip ${currentFilter === cat ? 'active' : ''}" 
+            data-categorie="${cat}">
       ${cat}
-    </div>
+    </button>
   `).join('');
   
-  // Attacher events
-  document.querySelectorAll('.category-chip').forEach(chip => {
-    chip.removeEventListener('click', chip._clickHandler);
-    const cat = chip.dataset.categorie;
-    const handler = () => filterByCategory(cat);
-    chip.addEventListener('click', handler);
-    chip._clickHandler = handler;
+  // Attacher les événements
+  document.querySelectorAll('.category-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.categorie;
+      filterByCategory(cat);
+    });
   });
 }
 
