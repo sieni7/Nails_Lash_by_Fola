@@ -3,7 +3,7 @@ import { useCart } from '../contexts/CartContext';
 import DateTimeModal from './DateTimeModal';
 
 const CartModal = () => {
-  const { panier, retirerDuPanier, viderPanier, compteurJour, incrementerCompteur } = useCart();
+  const { panier, retirerDuPanier, viderPanier, compteurJour, incrementerCompteur, showModal } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [showDateTime, setShowDateTime] = useState(false);
   
@@ -21,7 +21,7 @@ const CartModal = () => {
   const handleContinuer = () => {
     if (panier.length === 0) return;
     if (compteurJour >= 10) {
-      alert("⚠️ Limite de 10 commandes par jour atteinte.");
+      showModal("Limite atteinte", "⚠️ Limite de 10 commandes par jour atteinte.", "⚠️");
       return;
     }
     setIsOpen(false);

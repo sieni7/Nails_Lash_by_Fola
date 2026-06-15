@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import Modal from '../components/Modal';
 
 const CartContext = createContext();
 
@@ -8,6 +9,11 @@ export const CartProvider = ({ children }) => {
   const [panier, setPanier] = useState([]);
   const [commandes, setCommandes] = useState([]);
   const [compteurJour, setCompteurJour] = useState(0);
+  const [modal, setModal] = useState({ isOpen: false, title: '', message: '', icon: '⚠️' });
+
+  const showModal = (title, message, icon = '⚠️') => {
+    setModal({ isOpen: true, title, message, icon });
+  };
   
   // Charger localStorage au démarrage
   useEffect(() => {
@@ -33,7 +39,7 @@ export const CartProvider = ({ children }) => {
   
   const ajouterAuPanier = (prestation) => {
     if (panier.length >= 3) {
-      alert('Maximum 3 prestations par commande');
+      showModal('Limite atteinte', 'Maximum 3 prestations par commande.');
       return false;
     }
     setPanier([...panier, prestation]);
@@ -71,9 +77,17 @@ export const CartProvider = ({ children }) => {
       viderPanier: () => setPanier([]),
       compteurJour,
       incrementerCompteur,
-      setCompteurJour
+      setCompteurJour,
+      showModal
     }}>
       {children}
+      <Modal 
+        isOpen={modal.isOpen}
+        onClose={() => setModal({ ...modal, isOpen: false })}
+        icon={modal.icon}
+        title={modal.title}
+        message={modal.message}
+      />
     </CartContext.Provider>
   );
 };

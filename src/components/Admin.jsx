@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../contexts/CartContext';
+import Modal from './Modal';
+import PromptModal from './PromptModal';
 
 const ADMIN_PIN = "2025";
 
 const Admin = () => {
-  const { compteurJour, setCompteurJour } = useCart();
+  const { compteurJour, setCompteurJour, showModal } = useCart();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [pin, setPin] = useState('');
+  const [pinModal, setPinModal] = useState(true);
   const [history, setHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [confirmModal, setConfirmModal] = useState({ isOpen: false, action: null, title: '', message: '' });
 
   useEffect(() => {
     // Load history from localStorage
@@ -18,60 +21,66 @@ const Admin = () => {
     }
   }, []);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handlePinSubmit = (pin) => {
     if (pin === ADMIN_PIN) {
       setIsAuthenticated(true);
+      setPinModal(false);
     } else {
-      alert("❌ Code incorrect");
-      setPin('');
+      showModal("Erreur", "❌ Code incorrect", "🔒");
+      setPinModal(true); // Re-open prompt
     }
   };
 
+  const handleClosePin = () => {
+    setPinModal(false);
+    window.location.href = '/';
+  };
+
   const resetQuota = () => {
-    if (window.confirm("⚠️ Voulez-vous vraiment réinitialiser le compteur journalier ?")) {
+    setConfirmModal({
+      isOpen: true,
+      action: 'reset_quota',
+      title: 'Réinitialisation',
+      message: 'Voulez-vous vraiment réinitialiser le compteur journalier ?'
+    });
+  };
+
+  const resetAllData = () => {
+    setConfirmModal({
+      isOpen: true,
+      action: 'reset_all',
+      title: 'RÉINITIALISATION COMPLÈTE',
+      message: 'Cette action supprime TOUTES les données :\n- Toutes les commandes\n- Le compteur journalier\n- Le panier\n\nAction irréversible !'
+    });
+  };
+
+  const executeConfirmAction = () => {
+    if (confirmModal.action === 'reset_quota') {
       setCompteurJour(0);
       localStorage.setItem('nails_lash_compteur', JSON.stringify({
         date: new Date().toISOString().split('T')[0],
         count: 0
       }));
-      alert("✅ Compteur réinitialisé avec succès");
-    }
-  };
-
-  const resetAllData = () => {
-    if (window.confirm("⚠️⚠️ RÉINITIALISATION COMPLÈTE ⚠️⚠️\n\nCette action supprime TOUTES les données :\n- Toutes les commandes\n- Le compteur journalier\n- Le panier\n\nAction irréversible !")) {
-      const confirmation = window.prompt("Tapez 'RÉINITIALISER' pour confirmer:");
-      if (confirmation === "RÉINITIALISER") {
-        localStorage.clear();
-        alert("🗑️ Toutes les données ont été effacées");
+      showModal("Succès", "✅ Compteur réinitialisé avec succès", "✅");
+    } else if (confirmModal.action === 'reset_all') {
+      localStorage.clear();
+      showModal("Attention", "🗑️ Toutes les données ont été effacées", "⚠️");
+      setTimeout(() => {
         window.location.href = "/";
-      }
+      }, 1500);
     }
+    setConfirmModal({ isOpen: false });
   };
 
   if (!isAuthenticated) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', padding: '20px' }}>
-        <div className="admin-card" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
-          <div className="admin-icon" style={{ fontSize: '48px', marginBottom: '20px' }}>🔒</div>
-          <h2 style={{ marginBottom: '20px' }}>Mode Admin</h2>
-          <form onSubmit={handleLogin}>
-            <input 
-              type="password" 
-              placeholder="Code PIN" 
-              value={pin}
-              onChange={(e) => setPin(e.target.value)}
-              style={{ width: '100%', padding: '12px', marginBottom: '20px', borderRadius: '8px', border: '1px solid #ccc', fontSize: '18px', textAlign: 'center' }}
-              autoFocus
-            />
-            <button type="submit" className="custom-modal-btn custom-modal-btn-primary" style={{ width: '100%' }}>
-              Valider
-            </button>
-          </form>
-          <a href="/" style={{ display: 'block', marginTop: '20px', color: 'var(--whatsapp-teal)' }}>Retour à l'accueil</a>
-        </div>
-      </div>
+      <PromptModal
+        isOpen={pinModal}
+        onClose={handleClosePin}
+        onConfirm={handlePinSubmit}
+        title="Accès restreint"
+        message="Entrez le code PIN administrateur:"
+      />
     );
   }
 
@@ -152,6 +161,17 @@ const Admin = () => {
       <a href="/" style={{ display: 'block', textAlign: 'center', marginTop: '20px', color: 'var(--whatsapp-teal)', fontWeight: 500, textDecoration: 'none' }}>
         🔙 Retour à l'accueil client
       </a>
+
+      <Modal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal({ isOpen: false })}
+        onConfirm={executeConfirmAction}
+        icon="⚠️"
+        title={confirmModal.title}
+        message={confirmModal.message}
+        confirmText={confirmModal.action === 'reset_all' ? 'Effacer Tout' : 'Confirmer'}
+        showCancel={true}
+      />
     </div>
   );
 };

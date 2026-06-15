@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useCart } from '../contexts/CartContext';
 
 const DateTimeModal = ({ onClose, onConfirm }) => {
+  const { showModal } = useCart();
   const [config, setConfig] = useState(null);
   const [date, setDate] = useState('');
   const [selectedSlot, setSelectedSlot] = useState('');
@@ -18,7 +20,7 @@ const DateTimeModal = ({ onClose, onConfirm }) => {
 
   const handleConfirm = () => {
     if (!date || !selectedSlot) {
-      alert("Veuillez sélectionner une date et un créneau.");
+      showModal("Erreur", "Veuillez sélectionner une date et un créneau.", "⚠️");
       return;
     }
     onConfirm({ date, slot: selectedSlot });
