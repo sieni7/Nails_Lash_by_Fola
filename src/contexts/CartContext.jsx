@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import Modal from '../components/Modal';
+import { useToast } from '../components/Toast';
 
 const CartContext = createContext();
 
@@ -10,6 +11,7 @@ export const CartProvider = ({ children }) => {
   const [commandes, setCommandes] = useState([]);
   const [compteurJour, setCompteurJour] = useState(0);
   const [modal, setModal] = useState({ isOpen: false, title: '', message: '', icon: '⚠️' });
+  const { showToast } = useToast();
 
   const showModal = (title, message, icon = '⚠️') => {
     setModal({ isOpen: true, title, message, icon });
@@ -39,15 +41,20 @@ export const CartProvider = ({ children }) => {
   
   const ajouterAuPanier = (prestation) => {
     if (panier.length >= 3) {
-      showModal('Limite atteinte', 'Maximum 3 prestations par commande.');
+      showModal('Limite atteinte', 'Maximum 3 prestations par commande.', '⚠️');
       return false;
     }
     setPanier([...panier, prestation]);
+    showToast(`${prestation.nom} ajouté au panier`, 'success');
     return true;
   };
-  
+
   const retirerDuPanier = (id) => {
+    const prestation = panier.find(p => p.id === id);
     setPanier(panier.filter(item => item.id !== id));
+    if (prestation) {
+      showToast(`${prestation.nom} retiré`, 'error');
+    }
   };
 
   const incrementerCompteur = () => {

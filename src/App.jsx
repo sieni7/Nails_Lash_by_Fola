@@ -6,11 +6,14 @@ import CartFab from './components/CartFab';
 import CartModal from './components/CartModal';
 import Admin from './components/Admin';
 import { CartProvider } from './contexts/CartContext';
+import { ToastProvider } from './components/Toast';
+import { ThemeProvider } from './contexts/ThemeContext';
 import './styles/variables.css';
 import './styles/components.css';
 import './styles/main.css';
+import './styles/dark-mode.css';
 
-function App() {
+const App = () => {
   const [prestations, setPrestations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentCategory, setCurrentCategory] = useState('Toutes');
@@ -31,14 +34,20 @@ function App() {
   // Simple routing
   if (window.location.pathname === '/admin') {
     return (
-      <CartProvider>
-        <Admin />
-      </CartProvider>
+      <ToastProvider>
+        <ThemeProvider>
+          <CartProvider>
+            <Admin />
+          </CartProvider>
+        </ThemeProvider>
+      </ToastProvider>
     );
   }
   
   return (
-    <CartProvider>
+    <ToastProvider>
+      <ThemeProvider>
+        <CartProvider>
       <div className="app-container">
         <Header />
         <div className="hours-banner" style={{ background: 'var(--whatsapp-light)', padding: '8px', textAlign: 'center', fontSize: '12px', borderBottom: '1px solid var(--gray-300)' }}>
@@ -53,7 +62,9 @@ function App() {
         <CartFab />
         <CartModal />
       </div>
-    </CartProvider>
+        </CartProvider>
+      </ThemeProvider>
+    </ToastProvider>
   );
 }
 

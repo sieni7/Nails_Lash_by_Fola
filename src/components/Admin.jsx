@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../contexts/CartContext';
 import Modal from './Modal';
 import PromptModal from './PromptModal';
+import AdminStats from './AdminStats';
 
 const ADMIN_PIN = "2025";
 
@@ -102,6 +103,8 @@ const Admin = () => {
           <span style={{ fontSize: '24px' }}>📊</span>
           <h2 style={{ margin: 0 }}>Tableau de bord</h2>
         </div>
+        
+        <AdminStats />
         
         <div style={{ background: 'var(--gray-100)', borderRadius: '16px', padding: '15px', marginBottom: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--gray-300)' }}>

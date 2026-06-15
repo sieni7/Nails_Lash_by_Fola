@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Header = () => {
   const [config, setConfig] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { darkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
     fetch('/data/config.json')
@@ -43,6 +45,19 @@ const Header = () => {
             {isOpen ? "🟢 En ligne · Ouvert jusqu'à 21h" : "⭕ Fermé · Mar-Dim 9h-21h"}
           </div>
         </div>
+        <button 
+          onClick={toggleDarkMode} 
+          className="dark-mode-toggle"
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '20px',
+            cursor: 'pointer',
+            marginLeft: 'auto'
+          }}
+        >
+          {darkMode ? '☀️' : '🌙'}
+        </button>
       </header>
 
       {showModal && (

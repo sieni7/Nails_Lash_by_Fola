@@ -1,0 +1,111 @@
+/* Dark mode styles - WhatsApp dark theme */
+body.dark-mode {
+  background-color: #0a0a0a;
+}
+
+body.dark-mode .app-container {
+  background: #111111;
+}
+
+body.dark-mode .wa-header {
+  background: #1f2c34;
+}
+
+body.dark-mode .prestation-card {
+  background: #1f2c34;
+  color: #e9edef;
+}
+
+body.dark-mode .card-categorie {
+  color: #00a884;
+}
+
+body.dark-mode .categories-grid {
+  background: #111111;
+  border-bottom-color: #2a3942;
+}
+
+body.dark-mode .category-chip {
+  background: #1f2c34;
+  color: #e9edef;
+}
+
+body.dark-mode .modal-content {
+  background: #1f2c34;
+  color: #e9edef;
+}
+
+body.dark-mode .custom-modal-content {
+  background: #1f2c34;
+  color: #e9edef;
+}
+
+body.dark-mode .admin-card {
+  background: #1f2c34;
+  color: #e9edef;
+}
+
+body.dark-mode .stats-card,
+body.dark-mode .stat-card {
+  background: #111111;
+  color: #e9edef;
+}
+
+body.dark-mode .admin-icon {
+  color: #e9edef;
+}
+
+body.dark-mode input.prompt-input {
+  background: #111111;
+  color: #e9edef;
+  border-color: #2a3942;
+}
+
+/* Toast styles */
+.toast-container {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  animation: toastSlideUp 0.3s ease;
+  pointer-events: auto;
+}
+
+.toast-success {
+  background: #25D366;
+  color: #075E54;
+}
+
+.toast-error {
+  background: #dc3545;
+}
+
+.toast-info {
+  background: #128C7E;
+}
+
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
