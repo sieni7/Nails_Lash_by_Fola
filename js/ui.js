@@ -1,10 +1,12 @@
-// Rendu UI dynamique
+// ===== UI.JS - VERSION CORRIGÉE =====
 let currentFilter = 'Toutes';
-let selectedPrestations = new Set();
 
 function renderPrestations(prestations, filter = 'Toutes') {
   const container = document.getElementById('prestations-container');
-  if (!container) return;
+  if (!container) {
+    console.error('❌ Container prestations non trouvé');
+    return;
+  }
   
   let filtered = prestations;
   if (filter !== 'Toutes') {
@@ -14,12 +16,17 @@ function renderPrestations(prestations, filter = 'Toutes') {
   const panier = getPanier();
   const panierIds = new Set(panier.map(item => item.id));
   
+  if (filtered.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;">Aucune prestation dans cette catégorie</div>';
+    return;
+  }
+  
   container.innerHTML = filtered.map(presta => `
     <div class="prestation-card ${panierIds.has(presta.id) ? 'selected' : ''}" 
          data-id="${presta.id}">
       <div class="card-content">
         <div class="card-header">
-          <span class="card-categorie">${presta.categorie}</span>
+          <span class="card-categorie">${escapeHtml(presta.categorie)}</span>
           <span class="card-icon">${presta.icon || '💅'}</span>
         </div>
         <h3 class="card-title">${escapeHtml(presta.nom)}</h3>
@@ -33,14 +40,55 @@ function renderPrestations(prestations, filter = 'Toutes') {
     </div>
   `).join('');
   
-  // Réattacher les events après rendu
+  // Attacher les events après rendu
   document.querySelectorAll('.prestation-card').forEach(card => {
-    card.removeEventListener('click', card._clickHandler);
     const id = card.dataset.id;
+    card.removeEventListener('click', card._clickHandler);
     const handler = () => handlePrestationClick(id);
     card.addEventListener('click', handler);
     card._clickHandler = handler;
   });
+}
+
+function handlePrestationClick(id) {
+  console.log('🖱️ Clic prestation:', id);
+  
+  const prestation = window.prestationsList?.find(p => p.id === id);
+  if (!prestation) {
+    console.error('Prestation non trouvée:', id);
+    return;
+  }
+  
+  let panier = getPanier();
+  const isInCart = panier.some(item => item.id === id);
+  
+  if (isInCart) {
+    // Désélectionner
+    retirerDuPanier(id);
+    showCustomModal("🗑️", "Prestation retirée", `${prestation.nom} a été retiré de votre panier.`, "info");
+    console.log('🗑️ Retiré:', prestation.nom);
+  } else {
+    // Vérifier limite
+    if (panier.length >= 3) {
+      showCustomModal(
+        "⚠️", 
+        "Limite atteinte", 
+        `Vous ne pouvez pas sélectionner plus de 3 prestations par commande.`
+      );
+      console.log('⚠️ Limite atteinte');
+      return;
+    }
+    
+    ajouterAuPanier(prestation);
+    showCustomModal("✅", "Ajouté au panier", `${prestation.nom} a été ajouté à votre commande.`, "success");
+    console.log('✅ Ajouté:', prestation.nom);
+  }
+  
+  // Re-rendre
+  if (window.prestationsList) {
+    renderPrestations(window.prestationsList, currentFilter);
+  }
+  updateCartCount();
 }
 
 function renderCategories(prestations) {
@@ -50,11 +98,28 @@ function renderCategories(prestations) {
   
   container.innerHTML = categories.map(cat => `
     <div class="category-chip ${currentFilter === cat ? 'active' : ''}" 
-         data-categorie="${cat}"
-         onclick="filterByCategory('${cat}')">
+         data-categorie="${cat}">
       ${cat}
     </div>
   `).join('');
+  
+  // Attacher events
+  document.querySelectorAll('.category-chip').forEach(chip => {
+    chip.removeEventListener('click', chip._clickHandler);
+    const cat = chip.dataset.categorie;
+    const handler = () => filterByCategory(cat);
+    chip.addEventListener('click', handler);
+    chip._clickHandler = handler;
+  });
+}
+
+function filterByCategory(categorie) {
+  console.log('🏷️ Filtre:', categorie);
+  currentFilter = categorie;
+  if (window.prestationsList) {
+    renderCategories(window.prestationsList);
+    renderPrestations(window.prestationsList, currentFilter);
+  }
 }
 
 function updateCartCount() {
@@ -69,26 +134,10 @@ function updateCartCount() {
 function renderCartModal() {
   const panier = getPanier();
   const modalContent = document.getElementById('cart-modal-content');
-  if (!modalContent) {
-      // Create modal content dynamically if not exist
-      const modal = document.getElementById('cart-modal');
-      if (modal) {
-          modal.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title">Mon Panier</div>
-                    <div class="close-modal" onclick="closeCartModal()">×</div>
-                </div>
-                <div id="cart-modal-content"></div>
-            </div>
-          `;
-      }
-  }
-  const modalContentInner = document.getElementById('cart-modal-content');
-  if (!modalContentInner) return;
+  if (!modalContent) return;
   
   if (panier.length === 0) {
-    modalContentInner.innerHTML = `
+    modalContent.innerHTML = `
       <div class="cart-empty" style="text-align: center; padding: 40px;">
         🛒 Votre panier est vide
       </div>
@@ -104,12 +153,12 @@ function renderCartModal() {
     return sum + prix;
   }, 0);
   
-  modalContentInner.innerHTML = `
+  modalContent.innerHTML = `
     <div class="cart-items">
       ${panier.map(item => `
         <div class="cart-item">
           <div class="cart-item-info">
-            <div class="cart-item-name">${item.nom}</div>
+            <div class="cart-item-name">${escapeHtml(item.nom)}</div>
             <div class="cart-item-price">${item.prix_texte}</div>
           </div>
           <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">🗑️</button>
@@ -121,64 +170,16 @@ function renderCartModal() {
       <span>${total.toLocaleString()} FCFA</span>
     </div>
     <div class="cart-actions">
+      <button class="btn btn-secondary" onclick="closeCartModal()">Continuer</button>
       <button class="btn btn-secondary" onclick="openDateTimeModal()">📅 Choisir un créneau</button>
       <button class="btn btn-primary" onclick="validateAndOrder()">✅ Commander via WhatsApp</button>
     </div>
   `;
 }
 
-function filterByCategory(categorie) {
-  currentFilter = categorie;
-  if (window.prestationsList) {
-    renderCategories(window.prestationsList);
-    renderPrestations(window.prestationsList, currentFilter);
-  }
-}
-
-function handlePrestationClick(id) {
-  console.log('🖱️ Clic sur prestation:', id);
-  
-  const prestation = window.prestationsList?.find(p => p.id === id);
-  if (!prestation) {
-    console.error('Prestation non trouvée:', id);
-    return;
-  }
-  
-  let panier = getPanier();
-  const isInCart = panier.some(item => item.id === id);
-  
-  if (isInCart) {
-    // Désélectionner : retirer du panier
-    panier = retirerDuPanier(id);
-    console.log('🗑️ Retiré du panier:', prestation.nom);
-    showCustomModal("🗑️", "Prestation retirée", `${prestation.nom} a été retiré de votre panier.`, "info");
-  } else {
-    // Sélectionner : vérifier limite avant ajout
-    if (panier.length >= 3) {
-      console.log('⚠️ Limite atteinte:', panier.length);
-      showCustomModal(
-        "⚠️", 
-        "Limite atteinte", 
-        `Vous ne pouvez pas sélectionner plus de ${appConfig?.regles_commande?.max_prestations_par_commande || 3} prestations par commande.`
-      );
-      return;
-    }
-    
-    const success = ajouterAuPanier(prestation);
-    if (success) {
-      console.log('✅ Ajouté au panier:', prestation.nom);
-      showCustomModal("✅", "Ajouté au panier", `${prestation.nom} a été ajouté à votre commande.`, "success");
-    }
-  }
-  
-  // Re-rendre les prestations pour mettre à jour l'UI
-  if (window.prestationsList) {
-    renderPrestations(window.prestationsList, currentFilter);
-  }
-  updateCartCount();
-}
-
+// MODALE PERSONNALISÉE STYLISÉE
 function showCustomModal(icon, title, message, type = "warning") {
+  // Supprimer ancienne modale
   const existingModal = document.querySelector('.custom-modal');
   if (existingModal) existingModal.remove();
   
@@ -188,8 +189,8 @@ function showCustomModal(icon, title, message, type = "warning") {
     <div class="custom-modal-content">
       <div class="custom-modal-header">
         <div class="custom-modal-icon">${icon}</div>
-        <div class="custom-modal-title">${title}</div>
-        <div class="custom-modal-message">${message}</div>
+        <div class="custom-modal-title">${escapeHtml(title)}</div>
+        <div class="custom-modal-message">${escapeHtml(message)}</div>
       </div>
       <div class="custom-modal-actions">
         <button class="custom-modal-btn custom-modal-btn-primary" onclick="this.closest('.custom-modal').remove()">OK</button>
@@ -200,7 +201,7 @@ function showCustomModal(icon, title, message, type = "warning") {
   document.body.appendChild(modal);
   setTimeout(() => modal.classList.add('active'), 10);
   
-  // Auto fermeture après 2 secondes pour les succès
+  // Auto-fermeture pour les succès
   if (type === "success") {
     setTimeout(() => {
       if (modal && modal.parentNode) modal.remove();
@@ -208,42 +209,26 @@ function showCustomModal(icon, title, message, type = "warning") {
   }
 }
 
-function showLimitModal() {
-  showCustomModal(
-    "📦", 
-    "Limite de commande", 
-    `Maximum ${appConfig?.regles_commande.max_prestations_par_commande} prestations par commande. Veuillez finaliser votre commande actuelle avant d'en ajouter d'autres.`
-  );
-}
-
 function removeFromCart(id) {
   retirerDuPanier(id);
-  renderPrestations(window.prestationsList, currentFilter);
+  if (window.prestationsList) {
+    renderPrestations(window.prestationsList, currentFilter);
+  }
   renderCartModal();
-  showToast('🗑️ Retiré du panier', 'info');
+  showCustomModal("🗑️", "Retiré", "Prestation retirée du panier", "info");
 }
 
-function showToast(message, type = 'success') {
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  toast.textContent = message;
-  toast.style.cssText = `
-    position: fixed;
-    bottom: 150px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: ${type === 'success' ? '#25D366' : '#075E54'};
-    color: white;
-    padding: 12px 20px;
-    border-radius: 28px;
-    z-index: 1000;
-    animation: fadeOut 2s ease;
-  `;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2000);
+function closeCartModal() {
+  const modal = document.getElementById('cart-modal');
+  if (modal) modal.classList.remove('active');
 }
 
-// Helper pour éviter XSS
+function openCartModal() {
+  const modal = document.getElementById('cart-modal');
+  renderCartModal();
+  modal.classList.add('active');
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/[&<>]/g, function(m) {
@@ -253,3 +238,11 @@ function escapeHtml(str) {
     return m;
   });
 }
+
+// Exposer globalement
+window.showCustomModal = showCustomModal;
+window.filterByCategory = filterByCategory;
+window.removeFromCart = removeFromCart;
+window.closeCartModal = closeCartModal;
+window.openCartModal = openCartModal;
+window.handlePrestationClick = handlePrestationClick;
