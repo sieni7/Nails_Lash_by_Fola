@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#075E54">
+    <title>Admin - Nails & Lash by Fola</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .admin-card {
+            background: white;
+            border-radius: 20px;
+            margin: var(--space-md);
+            padding: var(--space-lg);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        
+        .admin-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 2px solid var(--whatsapp-light);
+        }
+        
+        .admin-icon {
+            font-size: 32px;
+        }
+        
+        .stats-card {
+            background: var(--gray-100);
+            border-radius: 16px;
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--gray-300);
+        }
+        
+        .stat:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+        
+        .stat-value {
+            font-weight: 700;
+            font-size: var(--text-lg);
+        }
+        
+        .stat-value.success {
+            color: var(--whatsapp-green-dark);
+        }
+        
+        .stat-value.warning {
+            color: #ff9800;
+        }
+        
+        .stat-value.danger {
+            color: #dc3545;
+        }
+        
+        .admin-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        
+        .info-note {
+            margin-top: var(--space-lg);
+            padding: var(--space-sm);
+            background: #FFF3E0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .history-item {
+            padding: var(--space-sm);
+            border-bottom: 1px solid var(--gray-300);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .history-date {
+            font-size: var(--text-sm);
+            color: var(--whatsapp-teal);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .history-prestations {
+            font-size: var(--text-sm);
+            margin-bottom: 4px;
+        }
+        
+        .history-total {
+            font-weight: 700;
+            color: var(--whatsapp-green-dark);
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: var(--space-md);
+            color: var(--whatsapp-teal);
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="wa-header">
+            <div class="wa-header__avatar">
+                <img src="assets/images/logo.png" alt="Nails & Lash by Fola" onerror="this.src='https://placehold.co/48x48/075E54/white?text=F'">
+            </div>
+            <div class="wa-header__info">
+                <h1>⚙️ Mode Admin</h1>
+                <div class="status">🔐 Accès restreint</div>
+            </div>
+        </header>
+        
+        <main>
+            <div id="admin-container">
+                <!-- Chargement -->
+                <div style="text-align: center; padding: 40px;">
+                    <div>🔐 Vérification des accès...</div>
+                </div>
+            </div>
+        </main>
+        
+        <a href="index.html" class="back-link">← Retour à l'accueil client</a>
+    </div>
+    
+    <script src="js/config.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadConfig();
+            checkAdminAccess();
+        });
+    </script>
+</body>
+</html>

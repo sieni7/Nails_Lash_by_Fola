@@ -54,5 +54,25 @@
   <script src="js/whatsapp.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Admin hidden link (tapoter 5 fois sur le logo) -->
+  <div style="display: none;" id="admin-trigger"></div>
+
+  <script>
+      // Accès admin caché : taper 5 fois sur le header
+      let adminClickCount = 0;
+      let adminTimer = null;
+      
+      document.querySelector('.wa-header')?.addEventListener('click', () => {
+          adminClickCount++;
+          if (adminTimer) clearTimeout(adminTimer);
+          adminTimer = setTimeout(() => { adminClickCount = 0; }, 1000);
+          
+          if (adminClickCount >= 5) {
+              window.location.href = 'admin.html';
+              adminClickCount = 0;
+          }
+      });
+  </script>
 </body>
 </html>

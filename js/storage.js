@@ -67,34 +67,68 @@ function viderPanier() {
   localStorage.removeItem(STORAGE_KEYS.PANIER);
 }
 
+function getCommandesHistory() {
+    const commandes = localStorage.getItem('nails_lash_commandes');
+    return commandes ? JSON.parse(commandes) : [];
+}
+
+function enregistrerCommande(panier, total) {
+    const commandes = getCommandesHistory();
+    
+    const nouvelleCommande = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        prestations: panier.map(p => ({
+            id: p.id,
+            nom: p.nom,
+            prix: p.prix,
+            prix_texte: p.prix_texte
+        })),
+        total: total,
+        statut: "confirmée"
+    };
+    
+    commandes.unshift(nouvelleCommande); // Ajouter au début
+    localStorage.setItem('nails_lash_commandes', JSON.stringify(commandes));
+    
+    return nouvelleCommande;
+}
+
 function getCompteurJour() {
-  const today = new Date().toDateString();
-  const data = localStorage.getItem(STORAGE_KEYS.COMPTEUR_JOUR);
-  
-  if (data) {
-    const parsed = JSON.parse(data);
-    if (parsed.date === today) {
-      return parsed.count;
+    const today = new Date().toDateString();
+    const data = localStorage.getItem('nails_lash_compteur');
+    
+    if (data) {
+        const parsed = JSON.parse(data);
+        // Vérifier si la date est aujourd'hui
+        if (parsed.date === today) {
+            return parsed.count;
+        }
     }
-  }
-  return 0;
+    
+    // Nouveau jour : réinitialiser
+    return 0;
 }
 
 function incrementerCompteurJour() {
-  const today = new Date().toDateString();
-  let count = getCompteurJour();
-  count++;
-  
-  localStorage.setItem(STORAGE_KEYS.COMPTEUR_JOUR, JSON.stringify({
-    date: today,
-    count: count
-  }));
-  
-  return count;
+    const today = new Date().toDateString();
+    let count = getCompteurJour();
+    count++;
+    
+    localStorage.setItem('nails_lash_compteur', JSON.stringify({
+        date: today,
+        count: count
+    }));
+    
+    return count;
+}
+
+function getPlacesRestantes() {
+    const limite = appConfig?.regles_commande.limite_quotidienne_commandes || 10;
+    const actuel = getCompteurJour();
+    return Math.max(0, limite - actuel);
 }
 
 function commandesDisponibles() {
-  const limite = appConfig?.regles_commande.limite_quotidienne_commandes || 10;
-  const actuel = getCompteurJour();
-  return actuel < limite;
+    return getPlacesRestantes() > 0;
 }
