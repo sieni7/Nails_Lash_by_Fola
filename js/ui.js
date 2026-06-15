@@ -115,7 +115,7 @@ function renderCartModal() {
       <span>${total.toLocaleString()} FCFA</span>
     </div>
     <div class="cart-actions">
-      <button class="btn btn-secondary" onclick="closeCartModal()">Continuer</button>
+      <button class="btn btn-secondary" onclick="openDateTimeModal()">📅 Choisir un créneau</button>
       <button class="btn btn-primary" onclick="validateAndOrder()">✅ Commander via WhatsApp</button>
     </div>
   `;
@@ -133,11 +133,64 @@ function handlePrestationClick(id) {
   const prestation = window.prestationsList?.find(p => p.id === id);
   if (!prestation) return;
   
-  const success = ajouterAuPanier(prestation);
-  if (success) {
-    renderPrestations(window.prestationsList, currentFilter);
-    showToast('✅ Ajouté au panier', 'success');
+  const panier = getPanier();
+  const isInCart = panier.some(item => item.id === id);
+  
+  if (isInCart) {
+    // Désélectionner : retirer du panier
+    retirerDuPanier(id);
+    showCustomModal("🗑️", "Prestation retirée", `${prestation.nom} a été retiré de votre panier.`);
+  } else {
+    // Sélectionner : ajouter au panier avec vérification limite
+    if (panier.length >= 3) {
+      showLimitModal();
+      return;
+    }
+    
+    ajouterAuPanier(prestation);
+    showCustomModal("✅", "Ajouté au panier", `${prestation.nom} a été ajouté à votre commande.`, "success");
   }
+  
+  renderPrestations(window.prestationsList, currentFilter);
+  updateCartCount();
+}
+
+function showCustomModal(icon, title, message, type = "warning") {
+  const existingModal = document.querySelector('.custom-modal');
+  if (existingModal) existingModal.remove();
+  
+  const modal = document.createElement('div');
+  modal.className = 'custom-modal';
+  modal.innerHTML = `
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <div class="custom-modal-icon">${icon}</div>
+        <div class="custom-modal-title">${title}</div>
+        <div class="custom-modal-message">${message}</div>
+      </div>
+      <div class="custom-modal-actions">
+        <button class="custom-modal-btn custom-modal-btn-primary" onclick="this.closest('.custom-modal').remove()">OK</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  setTimeout(() => modal.classList.add('active'), 10);
+  
+  // Auto fermeture après 2 secondes pour les succès
+  if (type === "success") {
+    setTimeout(() => {
+      if (modal && modal.parentNode) modal.remove();
+    }, 2000);
+  }
+}
+
+function showLimitModal() {
+  showCustomModal(
+    "📦", 
+    "Limite de commande", 
+    `Maximum ${appConfig?.regles_commande.max_prestations_par_commande} prestations par commande. Veuillez finaliser votre commande actuelle avant d'en ajouter d'autres.`
+  );
 }
 
 function removeFromCart(id) {

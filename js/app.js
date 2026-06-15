@@ -17,16 +17,30 @@ async function initApp() {
        const mainContent = document.querySelector('.main-content');
        categoriesFilter = document.createElement('div');
        categoriesFilter.id = 'categories-filter';
-       categoriesFilter.className = 'categories-filter';
+       categoriesFilter.className = 'categories-grid';
        mainContent.insertBefore(categoriesFilter, document.getElementById('prestations-container'));
+    } else {
+       categoriesFilter.className = 'categories-grid';
     }
 
     renderCategories(window.prestationsList);
     renderPrestations(window.prestationsList);
   }
   
-  // Afficher statut ouverture
+  renderGallery(); // NOUVEAU
   updateOpenStatus();
+  
+  // Ajouter le clic sur l'avatar (profil WhatsApp)
+  const avatar = document.querySelector('.wa-header__avatar');
+  if (avatar) {
+    avatar.addEventListener('click', () => {
+      showCustomModal(
+        "ℹ️", 
+        "Nails & Lash by Fola", 
+        `📍 ${appConfig?.salon.adresse}\n📞 ${appConfig?.salon.whatsapp}\n⏰ Mar-Dim 9h-21h`
+      );
+    });
+  }
   
   console.log('✅ Application prête');
 }
@@ -63,69 +77,67 @@ function closeCartModal() {
 }
 
 function validateAndOrder() {
-    const panier = getPanier();
-    
-    if (panier.length === 0) {
-        alert('Votre panier est vide');
-        return;
-    }
-    
-    if (!commandesDisponibles()) {
-        alert(`⚠️ Désolé, nous avons atteint notre limite de ${appConfig?.regles_commande.limite_quotidienne_commandes} commandes pour aujourd'hui.\n\n📅 Réessayez demain (ouverture 9h-21h, mar-dim)`);
-        return;
-    }
-    
-    if (!isOpenNow()) {
-        alert('⭕ Le salon est fermé.\n\n📅 Horaires : Mardi-Dimanche 9h-21h');
-        return;
-    }
-    
-    // Calculer total
-    const total = panier.reduce((sum, item) => {
-        const prix = typeof item.prix === 'number' ? item.prix : 0;
-        return sum + prix;
-    }, 0);
-    
-    // Générer message WhatsApp
-    generateWhatsAppMessage(panier, total);
-}
-
-function generateWhatsAppMessage(panier, total) {
-    let message = `*🛍️ NOUVELLE COMMANDE - Nails & Lash by Fola*%0A%0A`;
-    message += `*📋 Prestations sélectionnées :*%0A`;
-    
-    panier.forEach((item, index) => {
-        message += `${index + 1}. ${item.nom} - ${item.prix_texte}%0A`;
-    });
-    
-    message += `%0A*💰 Total : ${total.toLocaleString()} FCFA*%0A%0A`;
-    message += `👤 Nom du client : (à compléter)%0A`;
-    message += `📅 Date souhaitée : (jj/mm)%0A`;
-    message += `⏰ Horaire : (${appConfig?.horaires?.mardi || '9h-21h'})%0A`;
-    message += `📞 Téléphone : (votre numéro)%0A%0A`;
-    message += `📍 Adresse : 947G+5FX, Bingerville%0A`;
-    message += `_Merci de confirmer ma commande_ 🙏`;
-    
-    const numero = appConfig?.salon.whatsapp || '2250161210647';
-    const url = `https://wa.me/${numero}?text=${message}`;
-    
-    // Enregistrer la commande dans l'historique
-    enregistrerCommande(panier, total);
-    
-    // Incrémenter compteur
-    incrementerCompteurJour();
-    
-    // Vider panier après commande
-    viderPanier();
-    renderPrestations(window.prestationsList, currentFilter);
-    closeCartModal();
-    updateOpenStatus(); // Mettre à jour l'affichage du compteur
-    
-    // Ouvrir WhatsApp
-    window.open(url, '_blank');
-    
-    const placesRestantes = getPlacesRestantes();
-    showToast(`✅ Commande enregistrée ! Plus que ${placesRestantes} places aujourd'hui`, 'success');
+  const panier = getPanier();
+  
+  if (panier.length === 0) {
+    showCustomModal("🛒", "Panier vide", "Ajoutez des prestations à votre panier avant de commander");
+    return;
+  }
+  
+  if (!commandesDisponibles()) {
+    showCustomModal(
+      "⚠️", 
+      "Complet aujourd'hui", 
+      `Nous avons atteint notre limite de ${appConfig?.regles_commande.limite_quotidienne_commandes} commandes pour aujourd'hui.\n\n📅 Réessayez demain (ouverture 9h-21h, mar-dim)`
+    );
+    return;
+  }
+  
+  if (!isOpenNow()) {
+    showCustomModal(
+      "⭕", 
+      "Salon fermé", 
+      `Horaires : Mardi-Dimanche 9h-21h\n\nNous sommes actuellement fermés. Revenez pendant nos horaires d'ouverture.`
+    );
+    return;
+  }
+  
+  // Vérifier si rendez-vous choisi
+  if (!window.appointmentDate || !window.appointmentSlot) {
+    showCustomModal(
+      "📅", 
+      "Créneau horaire requis", 
+      "Veuillez sélectionner une date et un créneau horaire pour votre rendez-vous.",
+      "warning"
+    );
+    openDateTimeModal();
+    return;
+  }
+  
+  const total = panier.reduce((sum, item) => {
+    const prix = typeof item.prix === 'number' ? item.prix : 0;
+    return sum + prix;
+  }, 0);
+  
+  const message = generateWhatsAppMessageWithSlot(panier, total);
+  const numero = appConfig?.salon.whatsapp || '2250161210647';
+  const url = `https://wa.me/${numero}?text=${message}`;
+  
+  enregistrerCommande(panier, total);
+  incrementerCompteurJour();
+  viderPanier();
+  
+  renderPrestations(window.prestationsList, currentFilter);
+  closeCartModal();
+  updateOpenStatus();
+  
+  window.open(url, '_blank');
+  
+  // Réinitialiser les variables de rendez-vous
+  window.appointmentDate = null;
+  window.appointmentSlot = null;
+  
+  showCustomModal("✅", "Commande envoyée !", "Vous allez être redirigé vers WhatsApp pour confirmer votre commande.", "success");
 }
 
 // Événements DOM
