@@ -1,0 +1,18 @@
+{
+  "name": "Nails & Lash by Fola",
+  "short_name": "NailsLash",
+  "description": "Salon de beauté - Commandes WhatsApp à Bingerville",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#075E54",
+  "background_color": "#ECE5DD",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ]
+}

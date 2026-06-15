@@ -4,7 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#075E54">
-  <title>Nails & Lash by Fola</title>
+  <meta name="description" content="Salon de beauté Nails & Lash by Fola à Bingerville, Côte d'Ivoire. Commandez vos prestations nail art, extension cils directement via WhatsApp.">
+  <meta name="keywords" content="salon beauté, ongles, cils, Bingerville, Côte d'Ivoire, nail art, extension cils, WhatsApp">
+  <meta name="author" content="Nails & Lash by Fola">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nails-lash-fola.netlify.app/">
+  <meta property="og:title" content="Nails & Lash by Fola - Salon de Beauté">
+  <meta property="og:description" content="Commandez vos prestations beauté via WhatsApp à Bingerville">
+  <meta property="og:image" content="assets/images/logo.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://nails-lash-fola.netlify.app/">
+  <meta property="twitter:title" content="Nails & Lash by Fola">
+  <meta property="twitter:description" content="Salon de beauté à Bingerville">
+  
+  <title>Nails & Lash by Fola | Salon de Beauté Bingerville</title>
+  
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  
+  <!-- Preload critical assets -->
+  <link rel="preload" href="assets/css/variables.css" as="style">
+  <link rel="preload" href="js/config.js" as="script">
+  
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/reset.css">
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -73,6 +104,17 @@
               adminClickCount = 0;
           }
       });
+      
+      // PWA Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(reg => {
+            console.log('SW registered!', reg);
+          }).catch(err => console.log('SW registration failed', err));
+        });
+      }
   </script>
+  <script src="js/performance.js"></script>
+  <script src="js/accessibility.js"></script>
 </body>
 </html>
