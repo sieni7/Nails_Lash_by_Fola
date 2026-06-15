@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#075E54">
+  <title>Nails & Lash by Fola</title>
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header WhatsApp style -->
+    <header class="wa-header">
+      <div class="wa-header__avatar">
+        <img src="assets/images/logo.png" alt="Nails & Lash by Fola" id="logo-placeholder">
+      </div>
+      <div class="wa-header__info">
+        <h1>Nails & Lash by Fola</h1>
+        <div class="status">🟢 En ligne · Ouvert</div>
+      </div>
+    </header>
+
+    <!-- Horaires banner -->
+    <div class="hours-banner">
+      📍 Bingerville | 🕒 Mar-Dim 9h-21h
+    </div>
+
+    <!-- Main content : prestations grid -->
+    <main class="main-content">
+      <div class="prestations-grid" id="prestations-container">
+        <!-- Rempli dynamiquement par JS -->
+      </div>
+    </main>
+
+    <!-- Panier flottant (WhatsApp style) -->
+    <div class="cart-fab" id="cart-fab">
+      <span class="cart-icon">🛒</span>
+      <span class="cart-count" id="cart-count">0</span>
+    </div>
+
+    <!-- Modal panier (caché par défaut) -->
+    <div class="modal" id="cart-modal">
+      <!-- Contenu panier -->
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/panier.js"></script>
+  <script src="js/commande.js"></script>
+  <script src="js/whatsapp.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

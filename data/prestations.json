@@ -1,0 +1,47 @@
+[
+  {
+    "id": "nail_01",
+    "nom": "Pose d'ongles américains",
+    "categorie": "Nails",
+    "duree_minutes": 45,
+    "prix_fcfa": 5000,
+    "description": "Résine semi-permanente, finition naturelle",
+    "disponible": true
+  },
+  {
+    "id": "nail_02",
+    "nom": "Nail art personnalisé",
+    "categorie": "Nails",
+    "duree_minutes": 60,
+    "prix_fcfa": 7500,
+    "description": "Motifs, strass, paillettes",
+    "disponible": true
+  },
+  {
+    "id": "lash_01",
+    "nom": "Extension cils classiques",
+    "categorie": "Lash",
+    "duree_minutes": 60,
+    "prix_fcfa": 8000,
+    "description": "Un à un, effet naturel",
+    "disponible": true
+  },
+  {
+    "id": "lash_02",
+    "nom": "Extension cils volume",
+    "categorie": "Lash",
+    "duree_minutes": 90,
+    "prix_fcfa": 12000,
+    "description": "Effet glamour dense",
+    "disponible": true
+  },
+  {
+    "id": "combo_01",
+    "nom": "Duo Nails + Lash",
+    "categorie": "Combo",
+    "duree_minutes": 120,
+    "prix_fcfa": 15000,
+    "description": "Pose ongles simples + extension cils classiques",
+    "disponible": true
+  }
+]
