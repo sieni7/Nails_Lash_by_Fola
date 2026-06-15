@@ -52,11 +52,11 @@ function updateOpenStatus() {
   
   if (statusEl) {
     if (open) {
-      let statusText = '🟢 En ligne · Ouvert jusqu\\'à 21h';
+      let statusText = "🟢 En ligne · Ouvert jusqu'à 21h";
       if (placesRestantes > 0 && placesRestantes < 10) {
         statusText += ` · 📦 ${placesRestantes}/10 places`;
       } else if (placesRestantes === 0) {
-        statusText += ' · ⚠️ Complet aujourd\\'hui';
+        statusText += " · ⚠️ Complet aujourd'hui";
       }
       statusEl.innerHTML = statusText;
     } else {
