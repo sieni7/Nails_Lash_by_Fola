@@ -1,19 +1,16 @@
-# Nails & Lash by Fola - WhatsApp Order App
+# React + Vite
 
-**Salon de coiffure basé à Bingerville, Côte d'Ivoire**
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Fonctionnalités
-- ✅ Prise de commandes WhatsApp intégrée
-- ✅ Maximum 3 prestations par commande
-- ✅ Limite journalière : 10 commandes (mode demo)
-- ✅ Interface mobile-first style WhatsApp
+Currently, two official plugins are available:
 
-## Déploiement
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)]()
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Horaires
-Mardi - Dimanche : 9h00 - 21h00
-Lundi : Fermé
+## React Compiler
 
-## Contact
-WhatsApp : +225 01 61 21 06 47
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

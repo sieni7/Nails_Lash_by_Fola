@@ -1,0 +1,46 @@
+{
+  "salon": {
+    "nom": "Nails & Lash by Fola",
+    "proprietaire": "Fola",
+    "adresse": "Bingerville, Côte d'Ivoire",
+    "maps_code": "947G+5FX",
+    "whatsapp": "+2250161210647",
+    "email": "contact@nailslashbyfola.ci"
+  },
+  "horaires": {
+    "lundi": "Fermé",
+    "mardi": "09:00 - 21:00",
+    "mercredi": "09:00 - 21:00",
+    "jeudi": "09:00 - 21:00",
+    "vendredi": "09:00 - 21:00",
+    "samedi": "09:00 - 21:00",
+    "dimanche": "09:00 - 21:00"
+  },
+  "creneaux": {
+    "duree_slot": 60,
+    "liste": [
+      "09:00 - 10:00",
+      "10:00 - 11:00",
+      "11:00 - 12:00",
+      "12:00 - 13:00",
+      "13:00 - 14:00",
+      "14:00 - 15:00",
+      "15:00 - 16:00",
+      "16:00 - 17:00",
+      "17:00 - 18:00",
+      "18:00 - 19:00",
+      "19:00 - 20:00",
+      "20:00 - 21:00"
+    ]
+  },
+  "regles_commande": {
+    "max_prestations_par_commande": 3,
+    "limite_quotidienne_commandes": 10,
+    "mode_demo": true
+  },
+  "app": {
+    "version": "1.1.0",
+    "environnement": "production",
+    "cache_duree": 3600
+  }
+}
