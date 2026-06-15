@@ -16,15 +16,14 @@ function renderPrestations(prestations, filter = 'Toutes') {
   
   container.innerHTML = filtered.map(presta => `
     <div class="prestation-card ${panierIds.has(presta.id) ? 'selected' : ''}" 
-         data-id="${presta.id}"
-         onclick="handlePrestationClick('${presta.id}')">
+         data-id="${presta.id}">
       <div class="card-content">
         <div class="card-header">
           <span class="card-categorie">${presta.categorie}</span>
           <span class="card-icon">${presta.icon || '💅'}</span>
         </div>
-        <h3 class="card-title">${presta.nom}</h3>
-        <p class="card-description">${presta.description}</p>
+        <h3 class="card-title">${escapeHtml(presta.nom)}</h3>
+        <p class="card-description">${escapeHtml(presta.description)}</p>
         <div class="card-footer">
           <span class="card-price">${presta.prix_texte}</span>
           <span class="card-duree">⏱️ ${presta.duree} min</span>
@@ -34,7 +33,14 @@ function renderPrestations(prestations, filter = 'Toutes') {
     </div>
   `).join('');
   
-  updateCartCount();
+  // Réattacher les events après rendu
+  document.querySelectorAll('.prestation-card').forEach(card => {
+    card.removeEventListener('click', card._clickHandler);
+    const id = card.dataset.id;
+    const handler = () => handlePrestationClick(id);
+    card.addEventListener('click', handler);
+    card._clickHandler = handler;
+  });
 }
 
 function renderCategories(prestations) {
@@ -130,28 +136,45 @@ function filterByCategory(categorie) {
 }
 
 function handlePrestationClick(id) {
-  const prestation = window.prestationsList?.find(p => p.id === id);
-  if (!prestation) return;
+  console.log('🖱️ Clic sur prestation:', id);
   
-  const panier = getPanier();
+  const prestation = window.prestationsList?.find(p => p.id === id);
+  if (!prestation) {
+    console.error('Prestation non trouvée:', id);
+    return;
+  }
+  
+  let panier = getPanier();
   const isInCart = panier.some(item => item.id === id);
   
   if (isInCart) {
     // Désélectionner : retirer du panier
-    retirerDuPanier(id);
-    showCustomModal("🗑️", "Prestation retirée", `${prestation.nom} a été retiré de votre panier.`);
+    panier = retirerDuPanier(id);
+    console.log('🗑️ Retiré du panier:', prestation.nom);
+    showCustomModal("🗑️", "Prestation retirée", `${prestation.nom} a été retiré de votre panier.`, "info");
   } else {
-    // Sélectionner : ajouter au panier avec vérification limite
+    // Sélectionner : vérifier limite avant ajout
     if (panier.length >= 3) {
-      showLimitModal();
+      console.log('⚠️ Limite atteinte:', panier.length);
+      showCustomModal(
+        "⚠️", 
+        "Limite atteinte", 
+        `Vous ne pouvez pas sélectionner plus de ${appConfig?.regles_commande?.max_prestations_par_commande || 3} prestations par commande.`
+      );
       return;
     }
     
-    ajouterAuPanier(prestation);
-    showCustomModal("✅", "Ajouté au panier", `${prestation.nom} a été ajouté à votre commande.`, "success");
+    const success = ajouterAuPanier(prestation);
+    if (success) {
+      console.log('✅ Ajouté au panier:', prestation.nom);
+      showCustomModal("✅", "Ajouté au panier", `${prestation.nom} a été ajouté à votre commande.`, "success");
+    }
   }
   
-  renderPrestations(window.prestationsList, currentFilter);
+  // Re-rendre les prestations pour mettre à jour l'UI
+  if (window.prestationsList) {
+    renderPrestations(window.prestationsList, currentFilter);
+  }
   updateCartCount();
 }
 
@@ -218,4 +241,15 @@ function showToast(message, type = 'success') {
   `;
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 2000);
+}
+
+// Helper pour éviter XSS
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
 }

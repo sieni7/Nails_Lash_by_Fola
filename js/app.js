@@ -1,48 +1,66 @@
 // Application principale
 window.prestationsList = [];
 
-async function initApp() {
+function initApp() {
   console.log('🚀 Démarrage de Nails & Lash by Fola');
   
-  // Charger configuration
-  await loadConfig();
-  
-  // Charger prestations
-  window.prestationsList = await loadPrestations();
-  
-  if (window.prestationsList && window.prestationsList.length > 0) {
-    // Inject Categories Filter Element before the grid if not exists
-    let categoriesFilter = document.getElementById('categories-filter');
-    if (!categoriesFilter) {
-       const mainContent = document.querySelector('.main-content');
-       categoriesFilter = document.createElement('div');
-       categoriesFilter.id = 'categories-filter';
-       categoriesFilter.className = 'categories-grid';
-       mainContent.insertBefore(categoriesFilter, document.getElementById('prestations-container'));
-    } else {
-       categoriesFilter.className = 'categories-grid';
-    }
+  loadConfig().then(() => {
+    loadPrestations().then(prestations => {
+      window.prestationsList = prestations;
+      
+      if (window.prestationsList && window.prestationsList.length > 0) {
+        renderCategories(window.prestationsList);
+        renderPrestations(window.prestationsList);
+      }
+      
+      renderGallery();
+      updateOpenStatus();
+      setupProfileClick(); // NOUVEAU
+      setupGalleryTab();   // NOUVEAU
+      
+      console.log('✅ Application prête');
+    });
+  });
+}
 
-    renderCategories(window.prestationsList);
-    renderPrestations(window.prestationsList);
-  }
-  
-  renderGallery(); // NOUVEAU
-  updateOpenStatus();
-  
-  // Ajouter le clic sur l'avatar (profil WhatsApp)
+// Fonction pour le clic sur la photo de profil
+function setupProfileClick() {
   const avatar = document.querySelector('.wa-header__avatar');
   if (avatar) {
-    avatar.addEventListener('click', () => {
+    // Supprimer l'ancien listener pour éviter les doublons
+    avatar.removeEventListener('click', avatar._clickHandler);
+    const handler = () => {
+      console.log('👤 Clic sur le profil');
       showCustomModal(
         "ℹ️", 
         "Nails & Lash by Fola", 
-        `📍 ${appConfig?.salon.adresse}\n📞 ${appConfig?.salon.whatsapp}\n⏰ Mar-Dim 9h-21h`
+        `📍 ${appConfig?.salon?.adresse || 'Bingerville, Côte d\\'Ivoire'}\n📞 ${appConfig?.salon?.whatsapp || '+225 01 61 21 06 47'}\n⏰ Mar-Dim 9h-21h\n\n✨ Révélez votre beauté, affirmez votre style`
       );
+    };
+    avatar.addEventListener('click', handler);
+    avatar._clickHandler = handler;
+    console.log('✅ Event clic profil ajouté');
+  } else {
+    console.warn('⚠️ Avatar non trouvé');
+  }
+}
+
+// Fonction pour afficher un onglet galerie visible
+function setupGalleryTab() {
+  const galleryContainer = document.getElementById('gallery-container');
+  if (!galleryContainer) return;
+  
+  // Ajouter un en-tête cliquable pour la galerie
+  const galleryHeader = document.querySelector('.gallery-section .gallery-title');
+  if (galleryHeader) {
+    galleryHeader.style.cursor = 'pointer';
+    galleryHeader.addEventListener('click', () => {
+      const scrollContainer = document.querySelector('.gallery-scroll');
+      if (scrollContainer) {
+        scrollContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     });
   }
-  
-  console.log('✅ Application prête');
 }
 
 function updateOpenStatus() {

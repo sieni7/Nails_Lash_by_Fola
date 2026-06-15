@@ -1,3 +1,33 @@
+// Assurer que showCustomModal est disponible
+function showCustomModal(icon, title, message, type = "warning") {
+  // Vérifier si la fonction existe dans ui.js
+  if (typeof window.showCustomModal === 'function') {
+    window.showCustomModal(icon, title, message, type);
+    return;
+  }
+  
+  // Fallback si la fonction n'est pas encore chargée
+  const modal = document.createElement('div');
+  modal.className = 'custom-modal';
+  modal.innerHTML = `
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <div class="custom-modal-icon">${icon}</div>
+        <div class="custom-modal-title">${title}</div>
+        <div class="custom-modal-message">${message}</div>
+      </div>
+      <div class="custom-modal-actions">
+        <button class="custom-modal-btn custom-modal-btn-primary" onclick="this.closest('.custom-modal').remove()">OK</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  setTimeout(() => modal.classList.add('active'), 10);
+}
+
+// Exporter la fonction globalement
+window.showCustomModal = showCustomModal;
+
 let selectedSlot = null;
 let currentDate = null;
 
@@ -135,3 +165,4 @@ function generateWhatsAppMessageWithSlot(panier, total) {
   
   return message;
 }
+
