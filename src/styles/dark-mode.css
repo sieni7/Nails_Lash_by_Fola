@@ -109,3 +109,10 @@ body.dark-mode input.prompt-input {
     transform: translateY(0);
   }
 }
+
+/* Highlight selected category in dark mode */
+body.dark-mode .category-chip.active {
+  background: #00a884;
+  color: #ffffff;
+  border-color: #00a884;
+}
