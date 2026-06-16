@@ -6,6 +6,7 @@ const CartModal = () => {
   const { panier, retirerDuPanier, viderPanier, compteurJour, incrementerCompteur, showModal } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [showDateTime, setShowDateTime] = useState(false);
+  const [summaryDetails, setSummaryDetails] = useState(null);
   
   React.useEffect(() => {
     const handleOpen = () => setIsOpen(true);
@@ -26,8 +27,12 @@ const CartModal = () => {
   };
 
   const handleOrderComplete = (details) => {
-    // Generate WhatsApp Message
-    const { date, slot } = details;
+    setSummaryDetails(details);
+    setShowDateTime(false);
+  };
+
+  const handleConfirmSummary = () => {
+    const { date, slot } = summaryDetails;
     const itemsText = panier.map(item => `\uD83D\uDD39 ${item.nom} (${item.prix_texte})`).join('\n');
     
     const message = `*NOUVELLE COMMANDE* \uD83D\uDED2\n\n` +
@@ -39,18 +44,56 @@ const CartModal = () => {
       
     const whatsappUrl = `https://wa.me/2250161210647?text=${encodeURIComponent(message)}`;
     
-    // Increment local counter
     incrementerCompteur();
     viderPanier();
-    setShowDateTime(false);
+    setSummaryDetails(null);
     
     window.open(whatsappUrl, '_blank');
   };
 
-  if (!isOpen && !showDateTime) return null;
+  if (!isOpen && !showDateTime && !summaryDetails) return null;
 
   if (showDateTime) {
-    return <DateTimeModal onClose={() => setShowDateTime(false)} onConfirm={handleOrderComplete} />;
+    return <DateTimeModal onClose={() => { setShowDateTime(false); setIsOpen(true); }} onConfirm={handleOrderComplete} />;
+  }
+
+  if (summaryDetails) {
+    const { date, slot } = summaryDetails;
+    return (
+      <div className="custom-modal active">
+        <div className="custom-modal-content">
+          <div className="custom-modal-header">
+            <div className="custom-modal-icon">{'\uD83D\uDCCB'}</div>
+            <div className="custom-modal-title">R\xE9capitulatif</div>
+            <div className="custom-modal-message">Veuillez v\xE9rifier votre commande</div>
+          </div>
+          
+          <div style={{ padding: '0 20px', textAlign: 'left', lineHeight: '1.5' }}>
+            <p><strong>Date :</strong> {date}</p>
+            <p><strong>Heure :</strong> {slot}</p>
+            <p><strong>Prestations :</strong></p>
+            <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+              {panier.map((item, idx) => <li key={idx}>{item.nom}</li>)}
+            </ul>
+            <p style={{ marginTop: '10px', fontSize: '18px' }}><strong>Total : {total.toLocaleString('fr-FR')} FCFA</strong></p>
+            
+            <div style={{ marginTop: '15px', padding: '10px', background: 'var(--gray-100)', borderRadius: '8px', fontSize: '13px', color: 'var(--gray-900)' }}>
+              <strong>{'\u2139\uFE0F'} Note importante :</strong>
+              <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
+                <li>Paiement sur place (Esp\xE8ces ou Mobile Money).</li>
+                <li>Merci de respecter l'heure du rendez-vous.</li>
+                <li>En cas d'emp\xEAchement, veuillez nous pr\xE9venir \xE0 l'avance.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="custom-modal-actions">
+            <button className="custom-modal-btn custom-modal-btn-secondary" onClick={() => { setSummaryDetails(null); setShowDateTime(true); }}>Retour</button>
+            <button className="custom-modal-btn custom-modal-btn-primary" onClick={handleConfirmSummary}>Envoyer (WhatsApp)</button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
