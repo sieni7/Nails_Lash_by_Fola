@@ -94,7 +94,8 @@ export const CartProvider = ({ children }) => {
       compteurJour,
       incrementerCompteur,
       setCompteurJour,
-      showModal
+      showModal,
+      showToast
     }}>
       {children}
       <Modal 

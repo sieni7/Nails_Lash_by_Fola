@@ -744,3 +744,43 @@ body.dark-mode .skeleton-duree {
   background: linear-gradient(90deg, #2a3942 25%, #3b4a54 50%, #2a3942 75%);
   background-size: 200% 100%;
 }
+
+/* ===== FAVORIS ===== */
+.favorite-star {
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+.favorite-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+  animation: heartPop 0.3s ease;
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Indicateur visuel pour l'appui long */
+.prestation-card.long-press {
+  background: #DCF8C6;
+  border-color: var(--whatsapp-green);
+  transform: scale(0.95);
+  transition: all 0.1s ease;
+}
+
+/* Dark mode */
+body.dark-mode .prestation-card.long-press {
+  background: #1f2c34;
+  border-color: #00a884;
+}
