@@ -7,9 +7,6 @@ const CartModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showDateTime, setShowDateTime] = useState(false);
   
-  // Expose function to window or other components if needed, 
-  // but better to use a global state or simple event for opening.
-  // We can listen to a custom event for opening the cart
   React.useEffect(() => {
     const handleOpen = () => setIsOpen(true);
     window.addEventListener('openCart', handleOpen);
@@ -21,7 +18,7 @@ const CartModal = () => {
   const handleContinuer = () => {
     if (panier.length === 0) return;
     if (compteurJour >= 10) {
-      showModal("Limite atteinte", "⚠️ Limite de 10 commandes par jour atteinte.", "⚠️");
+      showModal("Limite atteinte", "\u26A0\uFE0F Limite de 10 commandes par jour atteinte.", "\u26A0\uFE0F");
       return;
     }
     setIsOpen(false);
@@ -31,14 +28,14 @@ const CartModal = () => {
   const handleOrderComplete = (details) => {
     // Generate WhatsApp Message
     const { date, slot } = details;
-    const itemsText = panier.map(item => `🔹 ${item.nom} (${item.prix_texte})`).join('\n');
+    const itemsText = panier.map(item => `\uD83D\uDD39 ${item.nom} (${item.prix_texte})`).join('\n');
     
-    const message = `*NOUVELLE COMMANDE* 🛒\n\n` +
+    const message = `*NOUVELLE COMMANDE* \uD83D\uDED2\n\n` +
       `*Prestations choisies :*\n${itemsText}\n\n` +
-      `*Total estimé :* ${total.toLocaleString('fr-FR')} FCFA\n` +
+      `*Total estim\xE9 :* ${total.toLocaleString('fr-FR')} FCFA\n` +
       `*Date :* ${date}\n` +
       `*Heure :* ${slot}\n\n` +
-      `_Merci de confirmer ma réservation !_`;
+      `_Merci de confirmer ma r\xE9servation !_`;
       
     const whatsappUrl = `https://wa.me/2250161210647?text=${encodeURIComponent(message)}`;
     
@@ -60,10 +57,10 @@ const CartModal = () => {
     <div className={`custom-modal ${isOpen ? 'active' : ''}`}>
       <div className="custom-modal-content">
         <div className="custom-modal-header">
-          <div className="custom-modal-icon">🛒</div>
+          <div className="custom-modal-icon">{'\uD83D\uDED2'}</div>
           <div className="custom-modal-title">Votre Panier</div>
           <div className="custom-modal-message">
-            {panier.length === 0 ? "Votre panier est vide" : `${panier.length} prestation(s) sélectionnée(s)`}
+            {panier.length === 0 ? "Votre panier est vide" : `${panier.length} prestation(s) s\xE9lectionn\xE9e(s)`}
           </div>
         </div>
         
@@ -79,7 +76,7 @@ const CartModal = () => {
                 style={{ background: 'none', border: 'none', color: '#dc3545', fontSize: '18px', cursor: 'pointer' }}
                 title="Retirer"
               >
-                ❌
+                {'\u274C'}
               </button>
             </div>
           ))}
@@ -87,7 +84,7 @@ const CartModal = () => {
 
         {panier.length > 0 && (
           <div style={{ padding: '15px 20px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', background: '#f8f9fa' }}>
-            <span>Total estimé:</span>
+            <span>Total estim\xE9:</span>
             <span>{total.toLocaleString('fr-FR')} FCFA</span>
           </div>
         )}
