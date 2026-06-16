@@ -31,9 +31,9 @@ const CartModal = () => {
   const handleOrderComplete = (details) => {
     // Generate WhatsApp Message
     const { date, slot } = details;
-    const itemsText = panier.map(item => `▪️ ${item.nom} (${item.prix_texte})`).join('\n');
+    const itemsText = panier.map(item => `🔹 ${item.nom} (${item.prix_texte})`).join('\n');
     
-    const message = `*NOUVELLE COMMANDE* 💅\n\n` +
+    const message = `*NOUVELLE COMMANDE* 🛒\n\n` +
       `*Prestations choisies :*\n${itemsText}\n\n` +
       `*Total estimé :* ${total.toLocaleString('fr-FR')} FCFA\n` +
       `*Date :* ${date}\n` +
@@ -77,8 +77,9 @@ const CartModal = () => {
               <button 
                 onClick={() => retirerDuPanier(item.id)}
                 style={{ background: 'none', border: 'none', color: '#dc3545', fontSize: '18px', cursor: 'pointer' }}
+                title="Retirer"
               >
-                🗑️
+                ❌
               </button>
             </div>
           ))}
