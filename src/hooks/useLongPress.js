@@ -14,19 +14,23 @@ const useLongPress = (onLongPress, onClick, { delay = 500 } = {}) => {
     }, delay);
   }, [onLongPress, delay]);
 
-  const end = useCallback((e) => {
+  const end = useCallback((e, shouldTriggerClick = true) => {
     clearTimeout(timerRef.current);
-    if (!isLongPress.current) {
+    if (shouldTriggerClick && !isLongPress.current) {
       onClick(e);
     }
   }, [onClick]);
 
+  const cancel = useCallback(() => {
+    clearTimeout(timerRef.current);
+  }, []);
+
   return {
     onMouseDown: start,
-    onMouseUp: end,
-    onMouseLeave: end,
+    onMouseUp: (e) => end(e, true),
+    onMouseLeave: cancel,
     onTouchStart: start,
-    onTouchEnd: end,
+    onTouchEnd: (e) => end(e, true),
   };
 };
 
