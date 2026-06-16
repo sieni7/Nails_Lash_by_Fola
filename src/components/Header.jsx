@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import ProfileModal from './ProfileModal';
 
 const Header = () => {
   const [config, setConfig] = useState(null);
@@ -36,7 +37,7 @@ const Header = () => {
   return (
     <>
       <header className="wa-header">
-        <div className="wa-header__avatar" onClick={() => setShowModal(true)}>
+        <div className="wa-header__avatar" onClick={() => setShowModal(true)} style={{ cursor: 'pointer' }}>
           <img src="/images/logo.png" alt="Nails & Lash by Fola" onError={(e) => e.target.src='https://placehold.co/48x48/075E54/white?text=F'} />
         </div>
         <div className="wa-header__info">
@@ -60,27 +61,7 @@ const Header = () => {
         </button>
       </header>
 
-      {showModal && (
-        <div className="custom-modal active">
-          <div className="custom-modal-content">
-            <div className="custom-modal-header">
-              <div className="custom-modal-icon" style={{ marginBottom: '15px' }}>
-                <img src="/images/logo.png" alt="Logo" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover' }} onError={(e) => e.target.style.display='none'} />
-              </div>
-              <div className="custom-modal-title">{config?.salon.nom}</div>
-              <div className="custom-modal-message" style={{ whiteSpace: 'pre-line', marginTop: '15px' }}>
-                <a href={`https://maps.google.com/?q=${encodeURIComponent(config?.salon.adresse + " " + (config?.salon.maps_code || ''))}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--whatsapp-teal)', textDecoration: 'none', fontWeight: 'bold' }}>
-                  📍 {config?.salon.adresse}
-                </a>
-                {`\n📞 ${config?.salon.whatsapp}\n⏰ Mardi-Dimanche 9h-21h\n\n✨ Révélez votre beauté, affirmez votre style`}
-              </div>
-            </div>
-            <div className="custom-modal-actions">
-              <button className="custom-modal-btn custom-modal-btn-primary" onClick={() => setShowModal(false)}>OK</button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ProfileModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </>
   );
 };

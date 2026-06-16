@@ -12,6 +12,7 @@ import './styles/variables.css';
 import './styles/components.css';
 import './styles/main.css';
 import './styles/dark-mode.css';
+import './styles/profile-modal.css';
 
 const App = () => {
   const [prestations, setPrestations] = useState([]);
