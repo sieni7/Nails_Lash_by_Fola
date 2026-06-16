@@ -13,6 +13,12 @@ export const CartProvider = ({ children }) => {
   const [modal, setModal] = useState({ isOpen: false, title: '', message: '', icon: '⚠️' });
   const { showToast } = useToast();
 
+  const vibrate = (duration = 10) => {
+    if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(duration);
+    }
+  };
+
   const showModal = (title, message, icon = '⚠️') => {
     setModal({ isOpen: true, title, message, icon });
   };
@@ -41,15 +47,18 @@ export const CartProvider = ({ children }) => {
   
   const ajouterAuPanier = (prestation) => {
     if (panier.length >= 3) {
+      vibrate(50);
       showModal('Limite atteinte', 'Maximum 3 prestations par commande.', '⚠️');
       return false;
     }
+    vibrate(10);
     setPanier([...panier, prestation]);
     showToast(`${prestation.nom} ajouté au panier`, 'success');
     return true;
   };
 
   const retirerDuPanier = (id) => {
+    vibrate(10);
     const prestation = panier.find(p => p.id === id);
     setPanier(panier.filter(item => item.id !== id));
     if (prestation) {

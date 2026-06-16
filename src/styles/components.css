@@ -591,3 +591,148 @@
 
 
 
+/* ===== BADGE PRIX STYLE WHATSAPP ===== */
+.prix-whatsapp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #DCF8C6;  /* Vert message WhatsApp */
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #075E54;  /* Vert foncé WhatsApp */
+  transition: transform 0.2s ease;
+}
+
+.prix-whatsapp-badge:active {
+  transform: scale(0.95);
+}
+
+.prix-icon {
+  font-size: 14px;
+}
+
+.prix-valeur {
+  letter-spacing: 0.5px;
+}
+
+/* Version dark mode */
+body.dark-mode .prix-whatsapp-badge {
+  background: #1f2c34;
+  color: #00a884;
+  border: 1px solid #00a884;
+}
+
+/* ===== SKELETON AMÉLIORÉ STYLE WHATSAPP ===== */
+.skeleton-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.skeleton-categorie {
+  width: 80px;
+  height: 20px;
+  background: linear-gradient(90deg, #E8E8E8 25%, #F5F5F5 50%, #E8E8E8 75%);
+  background-size: 200% 100%;
+  border-radius: 12px;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+.skeleton-icon {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(90deg, #E8E8E8 25%, #F5F5F5 50%, #E8E8E8 75%);
+  background-size: 200% 100%;
+  border-radius: 50%;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 18px;
+  background: linear-gradient(90deg, #E8E8E8 25%, #F5F5F5 50%, #E8E8E8 75%);
+  background-size: 200% 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+.skeleton-description {
+  width: 90%;
+  height: 14px;
+  background: linear-gradient(90deg, #E8E8E8 25%, #F5F5F5 50%, #E8E8E8 75%);
+  background-size: 200% 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+.skeleton-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skeleton-price {
+  width: 80px;
+  height: 28px;
+  background: linear-gradient(90deg, #E8E8E8 25%, #F5F5F5 50%, #E8E8E8 75%);
+  background-size: 200% 100%;
+  border-radius: 20px;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+.skeleton-duree {
+  width: 60px;
+  height: 16px;
+  background: linear-gradient(90deg, #E8E8E8 25%, #F5F5F5 50%, #E8E8E8 75%);
+  background-size: 200% 100%;
+  border-radius: 8px;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Dark mode skeleton */
+body.dark-mode .skeleton-card {
+  background: #1f2c34;
+}
+
+body.dark-mode .skeleton-categorie,
+body.dark-mode .skeleton-icon,
+body.dark-mode .skeleton-title,
+body.dark-mode .skeleton-description,
+body.dark-mode .skeleton-price,
+body.dark-mode .skeleton-duree {
+  background: linear-gradient(90deg, #2a3942 25%, #3b4a54 50%, #2a3942 75%);
+  background-size: 200% 100%;
+}
