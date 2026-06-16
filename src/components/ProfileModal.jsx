@@ -13,10 +13,10 @@ const ProfileModal = ({ isOpen, onClose }) => {
   const handleCopy = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText('+225 01 61 21 06 47').then(() => {
-        showToast('Num\xE9ro copi\xE9 !', 'success');
+        showToast('Num\u00E9ro copi\u00E9 !', 'success');
       });
     } else {
-      showToast('Num\xE9ro copi\xE9 !', 'success');
+      showToast('Num\u00E9ro copi\u00E9 !', 'success');
     }
   };
 
@@ -37,10 +37,10 @@ const ProfileModal = ({ isOpen, onClose }) => {
         {/* Infos principales */}
         <div className="profile-info">
           <h2 className="profile-name">Nails & Lash by Fola</h2>
-          <p className="profile-slogan">{'\u2728'} R\xE9v\xE9lez votre beaut\xE9, affirmez votre style</p>
+          <p className="profile-slogan">{'\u2728'} R&eacute;v&eacute;lez votre beaut&eacute;, affirmez votre style</p>
           
           <div className="profile-badges">
-            <span className="profile-badge">{'\uD83D\uDC85'} Salon de beaut\xE9</span>
+            <span className="profile-badge">{'\uD83D\uDC85'} Salon de beaut&eacute;</span>
             <span className="profile-badge">{'\uD83D\uDCCD'} Bingerville</span>
           </div>
         </div>
@@ -51,14 +51,14 @@ const ProfileModal = ({ isOpen, onClose }) => {
             <span className="detail-icon">{'\uD83D\uDCCD'}</span>
             <div>
               <div className="detail-label">Adresse</div>
-              <div className="detail-value">947G+5FX, Bingerville, C\xF4te d'Ivoire</div>
+              <div className="detail-value">947G+5FX, Bingerville, C&ocirc;te d'Ivoire</div>
             </div>
           </div>
           
           <div className="profile-detail">
             <span className="detail-icon">{'\uD83D\uDCDE'}</span>
             <div>
-              <div className="detail-label">T\xE9l\xE9phone / WhatsApp</div>
+              <div className="detail-label">T&eacute;l&eacute;phone / WhatsApp</div>
               <div className="detail-value">+225 01 61 21 06 47</div>
             </div>
           </div>
@@ -68,14 +68,14 @@ const ProfileModal = ({ isOpen, onClose }) => {
             <div>
               <div className="detail-label">Horaires</div>
               <div className="detail-value">Mardi - Dimanche : 9h00 - 21h00</div>
-              <div className="detail-value closed">Lundi : Ferm\xE9</div>
+              <div className="detail-value closed">Lundi : Ferm&eacute;</div>
             </div>
           </div>
           
           <div className="profile-detail">
             <span className="detail-icon">{'\uD83D\uDCF1'}</span>
             <div>
-              <div className="detail-label">R\xE9seaux sociaux</div>
+              <div className="detail-label">R&eacute;seaux sociaux</div>
               <div className="detail-value social-links">
                 <a href="https://tiktok.com/@folakemi8786" target="_blank" rel="noopener noreferrer">TikTok</a> {'\u2022'} 
                 <a href="https://facebook.com/NailsLashByFola" target="_blank" rel="noopener noreferrer">Facebook</a>

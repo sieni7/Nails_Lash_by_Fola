@@ -64,8 +64,8 @@ const CartModal = () => {
         <div className="custom-modal-content">
           <div className="custom-modal-header">
             <div className="custom-modal-icon">{'\uD83D\uDCCB'}</div>
-            <div className="custom-modal-title">R\xE9capitulatif</div>
-            <div className="custom-modal-message">Veuillez v\xE9rifier votre commande</div>
+            <div className="custom-modal-title">R&eacute;capitulatif</div>
+            <div className="custom-modal-message">Veuillez v&eacute;rifier votre commande</div>
           </div>
           
           <div style={{ padding: '0 20px', textAlign: 'left', lineHeight: '1.5' }}>
@@ -80,9 +80,9 @@ const CartModal = () => {
             <div style={{ marginTop: '15px', padding: '10px', background: 'var(--gray-100)', borderRadius: '8px', fontSize: '13px', color: 'var(--gray-900)' }}>
               <strong>{'\u2139\uFE0F'} Note importante :</strong>
               <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-                <li>Paiement sur place (Esp\xE8ces ou Mobile Money).</li>
+                <li>Paiement sur place (Esp&egrave;ces ou Mobile Money).</li>
                 <li>Merci de respecter l'heure du rendez-vous.</li>
-                <li>En cas d'emp\xEAchement, veuillez nous pr\xE9venir \xE0 l'avance.</li>
+                <li>En cas d'emp&ecirc;chement, veuillez nous pr&eacute;venir &agrave; l'avance.</li>
               </ul>
             </div>
           </div>
@@ -103,7 +103,7 @@ const CartModal = () => {
           <div className="custom-modal-icon">{'\uD83D\uDED2'}</div>
           <div className="custom-modal-title">Votre Panier</div>
           <div className="custom-modal-message">
-            {panier.length === 0 ? "Votre panier est vide" : `${panier.length} prestation(s) s\xE9lectionn\xE9e(s)`}
+            {panier.length === 0 ? "Votre panier est vide" : `${panier.length} prestation(s) s\u00E9lectionn\u00E9e(s)`}
           </div>
         </div>
         
@@ -127,7 +127,7 @@ const CartModal = () => {
 
         {panier.length > 0 && (
           <div style={{ padding: '15px 20px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', background: '#f8f9fa' }}>
-            <span>Total estim\xE9:</span>
+            <span>Total estim&eacute;:</span>
             <span>{total.toLocaleString('fr-FR')} FCFA</span>
           </div>
         )}
